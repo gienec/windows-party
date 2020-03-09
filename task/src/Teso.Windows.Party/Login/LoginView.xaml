@@ -34,7 +34,7 @@
                     </xctk:WatermarkPasswordBox>
                 </Border>
 
-                <Button Content="Log In" Style="{StaticResource LoginButton}" IsEnabled="{Binding LoginEnabled}">
+                <Button Content="Log In" Style="{StaticResource LoginButton}" IsEnabled="{Binding LoginEnabled}" IsDefault="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <cal:ActionMessage MethodName="Login">
@@ -43,7 +43,6 @@
                             </cal:ActionMessage>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    
                 </Button>
             </StackPanel>
         </Grid>

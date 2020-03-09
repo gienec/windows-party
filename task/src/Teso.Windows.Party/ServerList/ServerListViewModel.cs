@@ -18,6 +18,7 @@ namespace Teso.Windows.Party.ServerList
         private readonly IEventAggregator _eventAggregator;
         private readonly IServerListClient _serverListClient;
         private readonly User _user;
+        private ILog _logger;
         private CancellationTokenSource _cancellationTokenSource;
 
         public ServerListViewModel(IEventAggregator eventAggregator, IServerListClient serverListClient, User user)
@@ -25,6 +26,7 @@ namespace Teso.Windows.Party.ServerList
             _eventAggregator = eventAggregator;
             _serverListClient = serverListClient;
             _user = user;
+            _logger = LogManager.GetLog(GetType());
         }
 
         protected override async void OnActivate()
@@ -48,8 +50,10 @@ namespace Teso.Windows.Party.ServerList
                     Servers.Add(server);
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                _logger.Error(exception);
+
                 Xceed.Wpf.Toolkit.MessageBox.Show("Failed to get server list!", String.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
                 //TODO: implement retry with F5 hit?
                 Logout();
@@ -58,6 +62,8 @@ namespace Teso.Windows.Party.ServerList
             {
                 _cancellationTokenSource = null;
             }
+
+            _logger.Info("Got server list");
         }
 
         public void Logout()
@@ -69,6 +75,8 @@ namespace Teso.Windows.Party.ServerList
             }
 
             _eventAggregator.PublishOnUIThread(new ChangeEvent(ChangeAction.LoggedOut));
+
+            _logger.Info("Logged out");
         }
     }
 }

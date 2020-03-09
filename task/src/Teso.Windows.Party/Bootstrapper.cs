@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using Teso.Windows.Party.Clients.Authentication;
 using Teso.Windows.Party.Clients.ServerList;
 using Teso.Windows.Party.Configuration;
+using Teso.Windows.Party.Logging;
 using Teso.Windows.Party.Login;
 using Teso.Windows.Party.Models;
 using Teso.Windows.Party.ServerList;
@@ -45,6 +46,7 @@ namespace Teso.Windows.Party
                 .PerRequest<LoginViewModel>()
                 .PerRequest<ServerListViewModel>();
 
+            LogManager.GetLog = type => new Logger(type);
 
             ConventionManager.AddElementConvention<WatermarkPasswordBox>(
                 PasswordBoxHelper.BoundPasswordProperty,

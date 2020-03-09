@@ -41,6 +41,7 @@ namespace Teso.Windows.Party.Login
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IAuthenticationClient _authenticationClient;
+        private ILog _logger;
         private string _username;
         private string _password;
         private bool _loginEnabled;
@@ -49,6 +50,7 @@ namespace Teso.Windows.Party.Login
         {
             _eventAggregator = eventAggregator;
             _authenticationClient = authenticationClient;
+            _logger = LogManager.GetLog(GetType());
         }
 
         protected override void OnActivate()
@@ -73,14 +75,17 @@ namespace Teso.Windows.Party.Login
 
                 _eventAggregator.PublishOnUIThread(new ChangeEvent(ChangeAction.LoggedIn, authenticationResponse.Token));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                _logger.Error(exception);
                 Xceed.Wpf.Toolkit.MessageBox.Show("Athentication failed!", String.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
                 LoginEnabled = true;
             }
+
+            _logger.Info("User logged in");
         }
 
         private void ResetInputs()
