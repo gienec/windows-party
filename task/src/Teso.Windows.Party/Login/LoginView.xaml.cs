@@ -24,10 +24,5 @@ namespace Teso.Windows.Party.Login
         {
             InitializeComponent();
         }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
