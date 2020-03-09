@@ -69,7 +69,7 @@ namespace Teso.Windows.Party.Login
                     {
                         Username = username,
                         Password = password
-                    }).ConfigureAwait(false);
+                    });
 
                 _eventAggregator.PublishOnUIThread(new ChangeEvent(ChangeAction.LoggedIn, authenticationResponse.Token));
             }
